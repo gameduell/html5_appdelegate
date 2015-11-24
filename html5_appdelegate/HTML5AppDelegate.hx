@@ -26,6 +26,7 @@
 
 package html5_appdelegate;
 
+import js.html.Window;
 import msignal.Signal;
 import js.JQuery;
 import js.Browser;
@@ -106,4 +107,13 @@ class HTML5AppDelegate
 		}
 		return appDelegateInstance;
 	}
+    //
+    // native calls
+    //
+    public function openURL(url:String): Bool
+    {
+        Window.open(url, "_blank");// open a link in a new tab
+        return true;
+    }
+
 }
