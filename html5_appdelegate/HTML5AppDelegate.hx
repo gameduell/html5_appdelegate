@@ -112,7 +112,7 @@ class HTML5AppDelegate
     //
     public function openURL(url:String): Bool
     {
-        Window.open(url, "_blank");// open a link in a new tab
+        untyped window.open(url, "_blank");// open a link in a new tab
         return true;
     }
 
