@@ -26,6 +26,7 @@
 
 package html5_appdelegate;
 
+import js.html.Element;
 import js.html.Window;
 import msignal.Signal;
 import js.JQuery;
@@ -67,6 +68,7 @@ class HTML5AppDelegate
     static private var appDelegateInstance: HTML5AppDelegate;
 
     private var jquery: JQuery;
+    public var rootView(default, default):Element;
 
     private function new()
     {
