@@ -65,6 +65,10 @@ class HTML5AppDelegate
     **/
     public var onUnload(default, null): Signal0;
 
+    public var onZoom(default, null): Signal1<Float>;
+
+    public var zoomLevel(default, null): Float = 1.0;
+
     static private var appDelegateInstance: HTML5AppDelegate;
 
     private var jquery: JQuery;
@@ -77,13 +81,28 @@ class HTML5AppDelegate
         onBlur = new Signal0();
         onFocus = new Signal0();
         onUnload = new Signal0();
+        onZoom = new Signal1<Float>();
         connectListeners();
     }
 
     private function connectListeners(): Void
     {
+        var zoom: DetectZoom = null;
+
+        try
+        {
+            zoom = untyped GameDuellDetectZoom;
+        }
+        catch (e: Dynamic)
+        {}
+
         jquery.ready(function(e): Void
         {
+            if (zoom != null)
+            {
+                zoomLevel = zoom.getValue();
+            }
+
             jquery.blur(function(e: Dynamic)
             {
                 onBlur.dispatch();
@@ -98,6 +117,19 @@ class HTML5AppDelegate
             {
                 onUnload.dispatch();
             });
+
+            if (zoom != null)
+            {
+                jquery.resize(function(e: Dynamic)
+                {
+                    var newZoomLevel: Float = zoom.getValue();
+                    if (newZoomLevel != zoomLevel)
+                    {
+                        zoomLevel = newZoomLevel;
+                        onZoom.dispatch(newZoomLevel);
+                    }
+                });
+            }
         });
     }
 
@@ -118,4 +150,12 @@ class HTML5AppDelegate
         return true;
     }
 
+}
+
+/**
+    Declaration for detect-zoom.js
+**/
+extern class DetectZoom
+{
+    public function getValue(): Float;
 }

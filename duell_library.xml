@@ -7,6 +7,13 @@
 		<documentation>
 			<documentation-folder library="html5_appdelegate" path="documentation" />
 		</documentation>
+
+		<html5>
+			<js-source path="external-lib/detect-zoom.js" applyTemplate="false"/>
+		</html5>
+		<electron>
+			<jquery path="external-lib/detect-zoom.js"/>
+		</electron>
 	</platform-config>
 
 </library>
