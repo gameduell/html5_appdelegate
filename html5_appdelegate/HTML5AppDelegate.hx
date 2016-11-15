@@ -69,6 +69,8 @@ class HTML5AppDelegate
 
     public var zoomLevel(default, null): Float = 1.0;
 
+    public var onReady(default, null): Signal0;
+
     static private var appDelegateInstance: HTML5AppDelegate;
 
     private var jquery: JQuery;
@@ -82,6 +84,7 @@ class HTML5AppDelegate
         onFocus = new Signal0();
         onUnload = new Signal0();
         onZoom = new Signal1<Float>();
+        onReady = new Signal0();
         connectListeners();
     }
 
@@ -100,7 +103,7 @@ class HTML5AppDelegate
         {
             if (zoom != null)
             {
-                zoomLevel = zoom.getValue();
+                zoomLevel = zoom.zoom();
             }
 
             jquery.blur(function(e: Dynamic)
@@ -122,7 +125,7 @@ class HTML5AppDelegate
             {
                 jquery.resize(function(e: Dynamic)
                 {
-                    var newZoomLevel: Float = zoom.getValue();
+                    var newZoomLevel: Float = zoom.zoom();
                     if (newZoomLevel != zoomLevel)
                     {
                         zoomLevel = newZoomLevel;
@@ -130,6 +133,8 @@ class HTML5AppDelegate
                     }
                 });
             }
+
+            onReady.dispatch();
         });
     }
 
@@ -157,5 +162,5 @@ class HTML5AppDelegate
 **/
 extern class DetectZoom
 {
-    public function getValue(): Float;
+    public function zoom(): Float;
 }
