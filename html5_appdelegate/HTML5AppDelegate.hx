@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2003-2015, GameDuell GmbH
+ * Copyright (c) 2003-2016, GameDuell GmbH
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -65,6 +65,8 @@ class HTML5AppDelegate
     **/
     public var onUnload(default, null): Signal0;
 
+    public var zoomEnabled(default, null): Bool = HTML5AppDelegateConfig.zoomEnabled;
+
     public var onZoom(default, null): Signal1<Float>;
 
     public var zoomLevel(default, null): Float = 1.0;
@@ -92,12 +94,15 @@ class HTML5AppDelegate
     {
         var zoom: DetectZoom = null;
 
-        try
+        if (zoomEnabled)
         {
-            zoom = untyped GameDuellDetectZoom;
+            try
+            {
+                zoom = untyped GameDuellDetectZoom;
+            }
+            catch (e: Dynamic)
+            {}
         }
-        catch (e: Dynamic)
-        {}
 
         jquery.ready(function(e): Void
         {
